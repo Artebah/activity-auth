@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 import { hashUserPassword, verifyPassword } from '@/lib/hash';
 import { createUser, getUserByEmail } from '@/lib/user';
-import { createAuthSession } from '@/lib/auth';
+import { createAuthSession, destroySession, verifyAuth } from '@/lib/auth';
 
 export async function signup(prevState, formData) {
   const email = formData.get('email');
@@ -64,4 +64,9 @@ export async function signin(prevState, formData) {
 
   await createAuthSession(existingUser.id);
   redirect('/training');
+}
+
+export async function signout() {
+  await destroySession();
+  redirect('/');
 }
